@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Malachi Asgharian – businessman and engineering student.">
+<title>Malachi Asgharian</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛥️</text></svg>">
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:          #060b14;
+    --surface:     #0d1829;
+    --border:      #0f2040;
+    --border-glow: #1a3a6e;
+    --text:        #d6e8ff;
+    --muted:       #4a6a99;
+    --dim:         #2a4060;
+    --blue-soft:   #3d8bff;
+    --glow-lg:     0 0 40px rgba(30,111,255,0.25), 0 0 80px rgba(30,111,255,0.1);
+    --glow-sm:     0 0 16px rgba(30,111,255,0.3);
+    --mono:        'DM Mono', monospace;
+    --sans:        'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 15px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: rgba(30,111,255,0.3); color: #fff; }
+
+  /* CANVAS */
+  #ocean-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .page-wrap { position: relative; z-index: 1; }
+
+  .container      { max-width: 700px;  margin: 0 auto; padding: 0 32px; }
+  .container-wide { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+  section { scroll-margin-top: 100px; }
+
+  /* ── NAV ── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    padding: 22px 0;
+    border-bottom: 1px solid transparent;
+    transition: background 0.4s, border-color 0.4s;
+  }
+  header.scrolled {
+    background: rgba(6,11,20,0.88);
+    backdrop-filter: blur(18px);
+    border-color: var(--border);
+  }
+  .nav-inner {
+    max-width: 1080px; margin: 0 auto; padding: 0 32px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .nav-name {
+    font-family: var(--mono); font-size: 0.82rem;
+    color: var(--text); text-decoration: none; letter-spacing: -0.01em;
+    transition: color 0.2s;
+  }
+  .nav-name:hover { color: #fff; }
+  nav { display: flex; gap: 28px; }
+  nav a {
+    font-family: var(--mono); font-size: 0.75rem;
+    color: var(--muted); text-decoration: none; letter-spacing: 0.04em;
+    transition: color 0.2s, text-shadow 0.2s;
+  }
+  nav a:hover, nav a.active {
+    color: var(--blue-soft);
+    text-shadow: var(--glow-sm);
+  }
+
+  /* ── HERO ── */
+  #about {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; padding: 140px 0 100px;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 24px;
+  }
+  .hero-name {
+    font-family: var(--mono);
+    font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+    font-weight: 400; color: #fff; line-height: 1.15;
+    letter-spacing: -0.04em; margin-bottom: 10px;
+    animation: namePulse 4s ease-in-out infinite;
+  }
+  @keyframes namePulse {
+    0%,100% { text-shadow: 0 0 40px rgba(30,111,255,0.22), 0 0 80px rgba(30,111,255,0.08); }
+    50%      { text-shadow: 0 0 65px rgba(30,111,255,0.45), 0 0 130px rgba(30,111,255,0.18); }
+  }
+  .hero-name .accent { color: var(--blue-soft); }
+  .hero-tagline {
+    font-family: var(--mono); font-size: 0.82rem; color: var(--muted);
+    letter-spacing: 0.04em; margin-bottom: 36px;
+  }
+  .hero-bio {
+    font-size: 0.96rem; color: #537898;
+    max-width: 460px; line-height: 1.9; margin-bottom: 44px;
+  }
+  .hero-bio strong { color: var(--text); font-weight: 400; }
+  .hero-links { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+  .hero-link {
+    font-family: var(--mono); font-size: 0.73rem; color: var(--muted);
+    text-decoration: none; letter-spacing: 0.04em;
+    border: 1px solid var(--border); padding: 7px 14px; border-radius: 4px;
+    transition: color 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .hero-link:hover {
+    color: var(--blue-soft); border-color: var(--border-glow);
+    box-shadow: var(--glow-sm); background: rgba(30,111,255,0.05);
+  }
+  .hero-link.primary {
+    color: var(--blue-soft); border-color: var(--border-glow);
+    background: rgba(30,111,255,0.08);
+  }
+  .hero-link.primary:hover { background: rgba(30,111,255,0.16); box-shadow: var(--glow-lg); }
+  .hero-stats { display: flex; gap: 44px; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; gap: 3px; }
+  .stat-num {
+    font-family: var(--mono); font-size: 1.3rem; color: #fff;
+    letter-spacing: -0.04em; line-height: 1;
+  }
+  .stat-num .unit { font-size: 0.78rem; color: var(--blue-soft); }
+  .stat-label {
+    font-family: var(--mono); font-size: 0.62rem; color: var(--dim);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+
+  /* ── SECTION CHROME ── */
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+  .section-head { display: flex; align-items: center; gap: 16px; margin-bottom: 44px; }
+  .section-label {
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--border-glow), transparent);
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { padding: 90px 0; }
+
+  .exp-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: start;
+    gap: 20px;
+    padding: 22px 22px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(13,24,41,0.5);
+    backdrop-filter: blur(6px);
+    transition: border-color 0.28s, background 0.28s, box-shadow 0.28s;
+  }
+  .exp-item:hover {
+    border-color: var(--border-glow);
+    background: rgba(13,24,41,0.88);
+    box-shadow: 0 0 32px rgba(30,111,255,0.12), inset 0 0 28px rgba(30,111,255,0.04);
+  }
+  .exp-icon {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border-glow);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+    box-shadow: 0 0 14px rgba(30,111,255,0.14);
+  }
+  .exp-title { font-size: 0.92rem; color: var(--text); margin-bottom: 4px; line-height: 1.4; }
+  .exp-sub {
+    font-family: var(--mono); font-size: 0.69rem; color: var(--muted);
+    letter-spacing: 0.02em; margin-bottom: 8px;
+  }
+  .exp-desc { font-size: 0.8rem; color: #3d5a72; line-height: 1.65; }
+  .exp-badge {
+    display: inline-block; font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.08em; padding: 2px 8px; border-radius: 3px;
+    border: 1px solid var(--border-glow); color: var(--blue-soft);
+    background: rgba(30,111,255,0.07); margin-top: 10px; text-transform: uppercase;
+  }
+  .exp-date {
+    font-family: var(--mono); font-size: 0.67rem; color: var(--dim);
+    white-space: nowrap; padding-top: 4px; text-align: right;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { padding: 90px 0; }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .project-card {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(13,24,41,0.55);
+    backdrop-filter: blur(8px);
+    padding: 26px;
+    text-decoration: none;
+    display: flex; flex-direction: column; gap: 10px;
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s, transform 0.3s;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at top left, rgba(30,111,255,0.12), transparent 65%);
+    opacity: 0; transition: opacity 0.4s; pointer-events: none;
+  }
+  .project-card:hover {
+    border-color: var(--border-glow);
+    background: rgba(13,24,41,0.92);
+    box-shadow: var(--glow-lg), 0 12px 48px rgba(0,0,0,0.45);
+    transform: translateY(-4px);
+  }
+  .project-card:hover::before { opacity: 1; }
+  .project-card:hover .project-arrow { opacity: 1; transform: translate(2px,-2px); }
+
+  .project-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .project-emoji { font-size: 1.5rem; line-height: 1; }
+  .project-arrow {
+    font-family: var(--mono); font-size: 0.85rem; color: var(--blue-soft);
+    opacity: 0; transition: all 0.25s;
+  }
+  .project-title {
+    font-family: var(--mono); font-size: 0.9rem; color: var(--text);
+    line-height: 1.3; letter-spacing: -0.01em;
+  }
+  .project-desc { font-size: 0.78rem; color: #3d5a72; line-height: 1.68; flex: 1; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .project-tag {
+    font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.06em;
+    padding: 3px 8px; border-radius: 3px; border: 1px solid var(--border);
+    color: var(--dim); text-transform: uppercase; background: rgba(30,111,255,0.03);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .project-card:hover .project-tag { border-color: var(--border-glow); color: var(--muted); }
+
+  /* ── FOOTER ── */
+  footer { padding: 40px 0 60px; border-top: 1px solid var(--border); }
+  .footer-inner {
+    max-width: 1080px; margin: 0 auto; padding: 0 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-copy { font-family: var(--mono); font-size: 0.67rem; color: var(--dim); letter-spacing: 0.04em; }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { font-family: var(--mono); font-size: 0.67rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--blue-soft); }
+
+  /* ── FADE IN ── */
+  .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) { .project-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 560px) {
+    .exp-item { grid-template-columns: auto 1fr; }
+    .exp-date { display: none; }
+    .project-grid { grid-template-columns: 1fr; }
+    nav { gap: 16px; }
+  }
+</style>
+</head>
+
+<body>
+
+<canvas id="ocean-canvas"></canvas>
+
+<div class="page-wrap">
+
+  <!-- NAV -->
+  <header id="site-header">
+    <div class="nav-inner">
+      <a href="#about" class="nav-name">malachi asgharian</a>
+      <nav>
+        <a href="#about"      class="nav-link active">about</a>
+        <a href="#experience" class="nav-link">experience</a>
+        <a href="#projects"   class="nav-link">projects</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="about">
+    <div class="container">
+      <p class="hero-eyebrow">based in Dublin &middot; open to opportunities</p>
+      <h1 class="hero-name">I'm Malachi <span class="accent">Asgharian</span></h1>
+      <p class="hero-tagline">businessman &middot; engineering student &middot; builder</p>
+      <p class="hero-bio">
+        I build things at the intersection of <strong>technology</strong> and <strong>enterprise</strong>.
+        Currently studying engineering while running ventures that sit at the edge of software, hardware,
+        and business operations. I care about elegant systems, early-stage companies, and work that has real weight to it.
+      </p>
+      <div class="hero-links">
+        <a href="https://www.linkedin.com/in/malachi-asgharian-87aa4523a/" target="_blank" class="hero-link">linkedin ↗</a>
+        <a href="https://github.com/Exmira" target="_blank" class="hero-link">github ↗</a>
+        <a href="#projects" class="hero-link primary">view projects →</a>
+      </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-label">experience</span>
+        <div class="section-line"></div>
+      </div>
+
+      <ul class="exp-list">
+
+        <li class="exp-item fade-in" style="transition-delay:0ms">
+          <div class="exp-icon">🌐</div>
+          <div>
+            <div class="exp-title">Web Summit Scholar</div>
+            <div class="exp-sub">Web Summit &middot; Lisbon, Portugal</div>
+            <div class="exp-desc">• €25,000 scholarship – Chairman Access
+• Attend Web Summit Lisbon as Staff/ Chairman
+• Networking with international minds </div>
+            <span class="exp-badge">scholarship</span>
+          </div>
+          <div class="exp-date">Oct 2025</div>
+        </li>
+
+        <li class="exp-item fade-in" style="transition-delay:70ms">
+          <div class="exp-icon">🚀</div>
+          <div>
+            <div class="exp-title">Youtuber</div>
+            <div class="exp-sub">Malachi Rails &middot;</div>
+            <div class="exp-desc">Built a YT channel with over 6,000 subscribers based on the Ruby on Rails web framework. The channel has over 1M+ views. I've built other channels aswell.</div>
+            <span class="exp-badge">Youtube</span>
+          </div>
+          <div class="exp-date">2023 – Present</div>
+        </li>
+
+        <li class="exp-item fade-in" style="transition-delay:140ms">
+          <div class="exp-icon">👨‍💻</div>
+          <div>
+            <div class="exp-title">Freelance Web Developer</div>
+            <div class="exp-sub">Remote</div>
+            <div class="exp-desc">Led end-to-end development for 8+ client products across fintech and e-commerce. Established design systems and shipped production interfaces used by thousands.</div>
+            <span class="exp-badge">contract</span>
+          </div>
+          <div class="exp-date">2022 – present</div>
+        </li>
+
+        <li class="exp-item fade-in" style="transition-delay:210ms">
+          <div class="exp-icon">💬</div>
+          <div>
+            <div class="exp-title">Linguist</div>
+            <div class="exp-sub">Around the world</div>
+            <div class="exp-desc">I really enjoy going round the world and learning new languages. Currently I speak Irish, English, Spanish and Persian. I'm actively learning French, Turkish and Arabic.</div>
+            <span class="exp-badge">languages</span>
+          </div>
+          <div class="exp-date">Summer 2022</div>
+        </li>
+
+
+      </ul>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container-wide">
+      <div class="section-head" style="max-width:700px;margin-left:auto;margin-right:auto;margin-bottom:44px;">
+        <span class="section-label">projects</span>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="project-grid">
+
+        <a href="https://malachirails.com" target="_blank" class="project-card fade-in" style="transition-delay:0ms">
+          <div class="project-card-top">
+            <span class="project-emoji">🌊</span>
+            <span class="project-arrow">↗</span>
+          </div>
+          <div class="project-title">Malachi Rails</div>
+          <div class="project-desc">An education platform with Rails screencasts, tutorials, and resources for aspiring developers.</div>
+          <div class="project-tags">
+            <span class="project-tag">Ruby on Rails</span>
+            <span class="project-tag">PostgreSQL</span>
+            <span class="project-tag">AWS</span>
+
+          </div>
+        </a>
+
+        <a href="https://exmira.github.io/IrishProverbs/" target="_blank" class="project-card fade-in" style="transition-delay:65ms">
+          <div class="project-card-top">
+            <span class="project-emoji">🛰️</span>
+            <span class="project-arrow">↗</span>
+          </div>
+          <div class="project-title">Irish Proverbs</div>
+          <div class="project-desc">A website to learn Irish proverbs and their meanings.</div>
+          <div class="project-tags">
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS</span>
+            <span class="project-tag">JSON</span>
+          </div>
+        </a>
+
+        <a href="https://youtube.com/@malachirails" target="_blank" class="project-card fade-in" style="transition-delay:130ms">
+          <div class="project-card-top">
+            <span class="project-emoji">🧠</span>
+            <span class="project-arrow">↗</span>
+          </div>
+          <div class="project-title">Malachi Rails</div>
+          <div class="project-desc">My Youtube channel about Ruby on Rails development.</div>
+          <div class="project-tags">
+            <span class="project-tag">CONTENT CREATION</span>
+            <span class="project-tag">RAILS</span>
+
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 Malachi Asgharian — built with intention</span>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/malachi-asgharian-87aa4523a/">linkedin</a>
+        <a href="https://github.com/Exmira/">github</a>
+
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<script>
+/* ── OCEAN CANVAS ── */
+(function () {
+  const canvas = document.getElementById('ocean-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, particles, rays, frame = 0;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function mkParticle() {
+    return {
+      x:     Math.random() * W,
+      y:     H + Math.random() * 300,
+      r:     Math.random() * 2.4 + 0.3,
+      speed: Math.random() * 0.38 + 0.12,
+      drift: (Math.random() - 0.5) * 0.28,
+      alpha: Math.random() * 0.22 + 0.04,
+      pulse: Math.random() * Math.PI * 2,
+    };
+  }
+
+  function mkRay() {
+    return {
+      x:     Math.random() * W,
+      w:     Math.random() * 160 + 50,
+      alpha: Math.random() * 0.045 + 0.01,
+      speed: Math.random() * 0.12 + 0.04,
+      phase: Math.random() * Math.PI * 2,
+    };
+  }
+
+  function init() {
+    resize();
+    particles = Array.from({ length: 180 }, mkParticle);
+    rays      = Array.from({ length: 8 }, mkRay);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0,    '#060b14');
+    bg.addColorStop(0.45, '#060d1c');
+    bg.addColorStop(1,    '#04070f');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    const ra = ctx.createRadialGradient(W*0.5, H*0.22, 0, W*0.5, H*0.22, W*0.6);
+    ra.addColorStop(0,   'rgba(18,65,170,0.09)');
+    ra.addColorStop(0.6, 'rgba(10,40,130,0.03)');
+    ra.addColorStop(1,   'transparent');
+    ctx.fillStyle = ra;
+    ctx.fillRect(0, 0, W, H);
+
+    rays.forEach(ray => {
+      ray.phase += ray.speed * 0.01;
+      const sway = Math.sin(ray.phase) * 55;
+      const a    = ray.alpha * (0.65 + 0.35 * Math.sin(ray.phase * 1.4));
+      const grad = ctx.createLinearGradient(ray.x + sway, 0, ray.x + sway + ray.w, H * 0.9);
+      grad.addColorStop(0,   `rgba(35,105,255,${a})`);
+      grad.addColorStop(0.5, `rgba(18,65,200,${a * 0.3})`);
+      grad.addColorStop(1,   'transparent');
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(ray.x + sway - ray.w * 0.5, 0);
+      ctx.lineTo(ray.x + sway + ray.w * 1.5, 0);
+      ctx.lineTo(ray.x + sway + ray.w * 0.5, H * 0.9);
+      ctx.lineTo(ray.x + sway - ray.w * 0.5, H * 0.9);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.restore();
+    });
+
+    if (frame % 4 === 0) {
+      for (let i = 0; i < 5; i++) {
+        const cx = Math.random() * W;
+        const cy = Math.random() * H * 0.55;
+        const rr = Math.random() * 90 + 18;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, rr, rr * 0.28, Math.random() * Math.PI, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(38,100,255,${Math.random() * 0.028})`;
+        ctx.lineWidth = Math.random() * 1.8 + 0.4;
+        ctx.stroke();
+      }
+    }
+
+    particles.forEach(p => {
+      p.y -= p.speed; p.x += p.drift; p.pulse += 0.022;
+      const a = p.alpha * (0.55 + 0.45 * Math.sin(p.pulse));
+      const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 5);
+      grd.addColorStop(0,   `rgba(75,155,255,${a})`);
+      grd.addColorStop(0.5, `rgba(28,92,220,${a * 0.35})`);
+      grd.addColorStop(1,   'transparent');
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 5, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(150,210,255,${a * 1.3})`; ctx.fill();
+      if (p.y < -20 || p.x < -20 || p.x > W + 20) Object.assign(p, mkParticle());
+    });
+
+    frame++;
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  draw();
+})();
+
+/* ── NAV SCROLL BEHAVIOUR ── */
+(function () {
+  const header  = document.getElementById('site-header');
+  const links   = document.querySelectorAll('.nav-link');
+  const sections = ['about', 'experience', 'projects'];
+
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+
+    let current = 'about';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 140) current = id;
+    });
+
+    links.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  /* Smooth scroll for nav links */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+})();
+
+/* ── FADE IN ON SCROLL ── */
+(function () {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+})();
+</script>
+</body>
+</html>
