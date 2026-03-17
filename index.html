@@ -3,8 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Malachi Asgharian – businessman and engineering student.">
-<title>Malachi Asgharian</title>
+
+<!-- ═══════════════════════════════════════════════════
+     PRIMARY SEO
+     ═══════════════════════════════════════════════════ -->
+<title>Malachi Asgharian – Businessman, Engineer & Developer | Dublin</title>
+
+<meta name="description"
+      content="Malachi Asgharian is a Dublin-based businessman and engineering student building at the intersection of technology and enterprise. Founder, freelance developer, Web Summit Scholar, and Ruby on Rails educator with 1M+ YouTube views.">
+
+<meta name="keywords"
+      content="Malachi Asgharian, Malachi Asgharian Dublin, Malachi Asgharian developer, Malachi Asgharian engineer, Malachi Rails, Ruby on Rails, Web Summit Scholar">
+
+<meta name="author" content="Malachi Asgharian">
+
+<!-- Tells crawlers to index this page and follow all links -->
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+<!-- Canonical – replace with your real domain -->
+<link rel="canonical" href="https://malachirails.com/">
+
+<!-- ═══════════════════════════════════════════════════
+     OPEN GRAPH  (Facebook, LinkedIn, iMessage previews)
+     ═══════════════════════════════════════════════════ -->
+<meta property="og:type"        content="profile">
+<meta property="og:url"         content="https://malachirails.com/">
+<meta property="og:title"       content="Malachi Asgharian – Businessman, Engineer & Developer">
+<meta property="og:description" content="Dublin-based builder at the intersection of technology and enterprise. Web Summit Scholar, Ruby on Rails educator, freelance developer.">
+<meta property="og:image"       content="https://malachirails.com/og-image.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale"      content="en_IE">
+<meta property="og:site_name"   content="Malachi Asgharian">
+<meta property="profile:first_name" content="Malachi">
+<meta property="profile:last_name"  content="Asgharian">
+
+<!-- ═══════════════════════════════════════════════════
+     TWITTER / X CARD
+     ═══════════════════════════════════════════════════ -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="Malachi Asgharian – Businessman, Engineer & Developer">
+<meta name="twitter:description" content="Dublin-based builder at the intersection of technology and enterprise. Web Summit Scholar, Ruby on Rails educator, freelance developer.">
+<meta name="twitter:image"       content="https://malachirails.com/og-image.png">
+
+<!-- ═══════════════════════════════════════════════════
+     STRUCTURED DATA — Person (JSON-LD)
+     Google uses this to build Knowledge Panels
+     ═══════════════════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Malachi Asgharian",
+  "url": "https://malachirails.com",
+  "image": "https://malachirails.com/og-image.png",
+  "description": "Dublin-based businessman and engineering student building at the intersection of technology and enterprise.",
+  "jobTitle": "Engineer & Entrepreneur",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Dublin",
+    "addressCountry": "IE"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/malachi-asgharian-87aa4523a/",
+    "https://github.com/Exmira",
+    "https://youtube.com/@malachirails",
+    "https://malachirails.com"
+  ],
+  "knowsLanguage": ["en", "ga", "es", "fa"],
+  "alumniOf": {
+    "@type": "Organization",
+    "name": "Web Summit",
+    "url": "https://websummit.com"
+  }
+}
+</script>
+
+<!-- ═══════════════════════════════════════════════════
+     STRUCTURED DATA — WebSite (enables Sitelinks search box)
+     ═══════════════════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Malachi Asgharian",
+  "url": "https://malachirails.com",
+  "description": "Personal site of Malachi Asgharian – businessman, engineering student, and Ruby on Rails developer based in Dublin."
+}
+</script>
+
 <link rel="icon" href="rocket.png">
 <!-- 100% privacy-first analytics -->
 <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
@@ -299,7 +386,7 @@
   <header id="site-header">
     <div class="nav-inner">
       <a href="#about" class="nav-name">malachi asgharian</a>
-      <nav>
+      <nav aria-label="Primary navigation">
         <a href="#about"      class="nav-link active">about</a>
         <a href="#experience" class="nav-link">experience</a>
         <a href="#projects"   class="nav-link">projects</a>
@@ -308,27 +395,39 @@
   </header>
 
   <!-- HERO -->
-  <section id="about">
+  <!-- itemscope mirrors the JSON-LD above for inline microdata as a belt-and-braces signal -->
+  <section id="about" itemscope itemtype="https://schema.org/Person">
     <div class="container">
       <p class="hero-eyebrow">based in Dublin &middot; open to opportunities</p>
-      <h1 class="hero-name">I'm Malachi <span class="accent">Asgharian</span></h1>
-      <p class="hero-tagline">businessman &middot; engineering student &middot; builder</p>
-      <p class="hero-bio">
+
+      <!-- h1 contains the exact name Google needs to anchor the entity -->
+      <h1 class="hero-name" itemprop="name">I'm Malachi <span class="accent">Asgharian</span></h1>
+
+      <p class="hero-tagline" itemprop="jobTitle">businessman &middot; engineering student &middot; builder</p>
+      <p class="hero-bio" itemprop="description">
         I build things at the intersection of <strong>technology</strong> and <strong>enterprise</strong>.
         Currently studying engineering while running ventures that sit at the edge of software, hardware,
         and business operations. I care about elegant systems, early-stage companies, and work that has real weight to it.
       </p>
       <div class="hero-links">
-        <a href="https://www.linkedin.com/in/malachi-asgharian-87aa4523a/" target="_blank" class="hero-link">linkedin ↗</a>
-        <a href="https://github.com/Exmira" target="_blank" class="hero-link">github ↗</a>
+        <a href="https://www.linkedin.com/in/malachi-asgharian-87aa4523a/" target="_blank" rel="noopener"
+           class="hero-link" itemprop="sameAs">linkedin ↗</a>
+        <a href="https://github.com/Exmira" target="_blank" rel="noopener"
+           class="hero-link" itemprop="sameAs">github ↗</a>
         <a href="#projects" class="hero-link primary">view projects →</a>
       </div>
+      <!-- Hidden microdata for location -->
+      <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <meta itemprop="addressLocality" content="Dublin">
+        <meta itemprop="addressCountry" content="IE">
+      </span>
+    </div>
   </section>
 
   <hr class="section-divider">
 
   <!-- EXPERIENCE -->
-  <section id="experience">
+  <section id="experience" aria-label="Experience">
     <div class="container">
       <div class="section-head">
         <span class="section-label">experience</span>
@@ -338,51 +437,50 @@
       <ul class="exp-list">
 
         <li class="exp-item fade-in" style="transition-delay:0ms">
-          <div class="exp-icon">🌐</div>
+          <div class="exp-icon" aria-hidden="true">🌐</div>
           <div>
             <div class="exp-title">Web Summit Scholar</div>
             <div class="exp-sub">Web Summit &middot; Lisbon, Portugal</div>
             <div class="exp-desc">• €25,000 scholarship – Chairman Access
-• Attend Web Summit Lisbon as Staff/ Chairman
-• Networking with international minds </div>
+• Attend Web Summit Lisbon as Staff / Chairman
+• Networking with international minds</div>
             <span class="exp-badge">scholarship</span>
           </div>
           <div class="exp-date">Oct 2025</div>
         </li>
 
         <li class="exp-item fade-in" style="transition-delay:70ms">
-          <div class="exp-icon">🚀</div>
+          <div class="exp-icon" aria-hidden="true">🚀</div>
           <div>
-            <div class="exp-title">Youtuber</div>
-            <div class="exp-sub">Malachi Rails &middot;</div>
-            <div class="exp-desc">Built a YT channel with over 6,000 subscribers based on the Ruby on Rails web framework. The channel has over 1M+ views. I've built other channels aswell.</div>
-            <span class="exp-badge">Youtube</span>
+            <div class="exp-title">YouTuber – Malachi Rails</div>
+            <div class="exp-sub">Malachi Rails &middot; YouTube</div>
+            <div class="exp-desc">Built a YouTube channel with over 6,000 subscribers focused on the Ruby on Rails web framework. The channel has surpassed 1M+ views. Created additional channels across related topics.</div>
+            <span class="exp-badge">YouTube</span>
           </div>
           <div class="exp-date">2023 – Present</div>
         </li>
 
         <li class="exp-item fade-in" style="transition-delay:140ms">
-          <div class="exp-icon">👨‍💻</div>
+          <div class="exp-icon" aria-hidden="true">👨‍💻</div>
           <div>
             <div class="exp-title">Freelance Web Developer</div>
             <div class="exp-sub">Remote</div>
             <div class="exp-desc">Led end-to-end development for 8+ client products across fintech and e-commerce. Established design systems and shipped production interfaces used by thousands.</div>
             <span class="exp-badge">contract</span>
           </div>
-          <div class="exp-date">2022 – present</div>
+          <div class="exp-date">2022 – Present</div>
         </li>
 
         <li class="exp-item fade-in" style="transition-delay:210ms">
-          <div class="exp-icon">💬</div>
+          <div class="exp-icon" aria-hidden="true">💬</div>
           <div>
             <div class="exp-title">Linguist</div>
             <div class="exp-sub">Around the world</div>
-            <div class="exp-desc">I really enjoy going round the world and learning new languages. Currently I speak Irish, English, Spanish and Persian. I'm actively learning French, Turkish and Arabic.</div>
+            <div class="exp-desc">I really enjoy going round the world and learning new languages. Currently I speak Irish, English, Spanish and Persian. Actively learning French, Turkish and Arabic.</div>
             <span class="exp-badge">languages</span>
           </div>
           <div class="exp-date">Summer 2022</div>
         </li>
-
 
       </ul>
     </div>
@@ -391,7 +489,7 @@
   <hr class="section-divider">
 
   <!-- PROJECTS -->
-  <section id="projects">
+  <section id="projects" aria-label="Projects">
     <div class="container-wide">
       <div class="section-head" style="max-width:700px;margin-left:auto;margin-right:auto;margin-bottom:44px;">
         <span class="section-label">projects</span>
@@ -400,10 +498,12 @@
 
       <div class="project-grid">
 
-        <a href="https://malachirails.com" target="_blank" class="project-card fade-in" style="transition-delay:0ms">
+        <a href="https://malachirails.com" target="_blank" rel="noopener"
+           class="project-card fade-in" style="transition-delay:0ms"
+           aria-label="Malachi Rails – education platform">
           <div class="project-card-top">
-            <span class="project-emoji">🌊</span>
-            <span class="project-arrow">↗</span>
+            <span class="project-emoji" aria-hidden="true">🌊</span>
+            <span class="project-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="project-title">Malachi Rails</div>
           <div class="project-desc">An education platform with Rails screencasts, tutorials, and resources for aspiring developers.</div>
@@ -411,14 +511,15 @@
             <span class="project-tag">Ruby on Rails</span>
             <span class="project-tag">PostgreSQL</span>
             <span class="project-tag">AWS</span>
-
           </div>
         </a>
 
-        <a href="https://exmira.github.io/IrishProverbs/" target="_blank" class="project-card fade-in" style="transition-delay:65ms">
+        <a href="https://exmira.github.io/IrishProverbs/" target="_blank" rel="noopener"
+           class="project-card fade-in" style="transition-delay:65ms"
+           aria-label="Irish Proverbs website">
           <div class="project-card-top">
-            <span class="project-emoji">🛰️</span>
-            <span class="project-arrow">↗</span>
+            <span class="project-emoji" aria-hidden="true">🛰️</span>
+            <span class="project-arrow" aria-hidden="true">↗</span>
           </div>
           <div class="project-title">Irish Proverbs</div>
           <div class="project-desc">A website to learn Irish proverbs and their meanings.</div>
@@ -429,19 +530,21 @@
           </div>
         </a>
 
-        <a href="https://youtube.com/@malachirails" target="_blank" class="project-card fade-in" style="transition-delay:130ms">
+        <a href="https://youtube.com/@malachirails" target="_blank" rel="noopener"
+           class="project-card fade-in" style="transition-delay:130ms"
+           aria-label="Malachi Rails YouTube channel">
           <div class="project-card-top">
-            <span class="project-emoji">🧠</span>
-            <span class="project-arrow">↗</span>
+            <span class="project-emoji" aria-hidden="true">🧠</span>
+            <span class="project-arrow" aria-hidden="true">↗</span>
           </div>
-          <div class="project-title">Malachi Rails</div>
-          <div class="project-desc">My Youtube channel about Ruby on Rails development.</div>
+          <div class="project-title">Malachi Rails – YouTube</div>
+          <div class="project-desc">My YouTube channel about Ruby on Rails development with 6,000+ subscribers and 1M+ views.</div>
           <div class="project-tags">
-            <span class="project-tag">CONTENT CREATION</span>
-            <span class="project-tag">RAILS</span>
-
+            <span class="project-tag">Content Creation</span>
+            <span class="project-tag">Rails</span>
           </div>
         </a>
+
       </div>
     </div>
   </section>
@@ -451,9 +554,8 @@
     <div class="footer-inner">
       <span class="footer-copy">© 2026 Malachi Asgharian — built with intention</span>
       <div class="footer-links">
-        <a href="https://www.linkedin.com/in/malachi-asgharian-87aa4523a/">linkedin</a>
-        <a href="https://github.com/Exmira/">github</a>
-
+        <a href="https://www.linkedin.com/in/malachi-asgharian-87aa4523a/" rel="noopener">linkedin</a>
+        <a href="https://github.com/Exmira/" rel="noopener">github</a>
       </div>
     </div>
   </footer>
@@ -593,7 +695,6 @@
     });
   });
 
-  /* Smooth scroll for nav links */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
